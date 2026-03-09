@@ -1,151 +1,94 @@
 'use client';
 
 import React from 'react';
-import { Database, ArrowLeft, CheckCircle2 } from 'lucide-react';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
+import { Database, Shield, Cpu, Zap, ArrowRight, BarChart } from 'lucide-react';
 import Navbar from '../Navbar';
-export default function ServicesPage() {
-  
-  // Reusable animation settings so we don't repeat ourselves
-  const fadeUp = {
+import CustomCursor from '../CustomCursor';
+
+export default function Services() {
+  // Animation Variants with explicit Types for TypeScript
+  const fadeUp: Variants = {
     hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { duration: 0.8, ease: "easeOut" } 
+    }
   };
 
-  const slideRight = {
-    hidden: { opacity: 0, x: -50 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut" } }
+  const staggerContainer: Variants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1, 
+      transition: { staggerChildren: 0.2 } 
+    }
   };
 
-  const slideLeft = {
-    hidden: { opacity: 0, x: 50 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut" } }
-  };
+  const services = [
+    { title: "CRM Implementation", desc: "Custom Microsoft Dynamics 365 setups tailored to your sales cycle.", icon: <Database className="h-8 w-8" /> },
+    { title: "ERP Migration", desc: "Seamless transition of legacy financial data to the cloud.", icon: <Shield className="h-8 w-8" /> },
+    { title: "Automation", desc: "AI-driven workflows to eliminate repetitive manual tasks.", icon: <Zap className="h-8 w-8" /> },
+    { title: "Custom API", desc: "Connecting your business tools with robust middleware.", icon: <Cpu className="h-8 w-8" /> },
+    { title: "Data Analytics", desc: "Real-time dashboards for actionable business intelligence.", icon: <BarChart className="h-8 w-8" /> },
+  ];
 
   return (
-    <div className="min-h-screen bg-white font-sans text-slate-900 overflow-hidden">
-      
-      {/* Header */}
+    <div className="min-h-screen bg-slate-950 text-white cursor-none">
+      <CustomCursor />
       <Navbar />
 
       {/* Hero Section */}
-      <div className="bg-slate-900 text-white py-24 md:py-32">
+      <section className="pt-40 pb-20 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600/20 blur-[120px] rounded-full"></div>
         <motion.div 
-          initial="hidden"
-          animate="visible"
-          variants={fadeUp}
-          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
+          initial="hidden" 
+          animate="visible" 
+          variants={fadeUp} 
+          className="max-w-7xl mx-auto px-4 text-center"
         >
-          <h1 className="text-5xl md:text-6xl font-extrabold mb-6">Enterprise-Grade <span className="text-blue-400">Services</span></h1>
-          <p className="text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed">
-            We don't just install software. We architect business solutions. Discover how our end-to-end Dynamics 365 services can transform your data into revenue.
+          <h1 className="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight">
+            Our <span className="text-blue-500">Services</span>
+          </h1>
+          <p className="text-xl text-slate-400 max-w-2xl mx-auto mb-10">
+            High-performance architecture designed to scale your enterprise operations.
           </p>
         </motion.div>
-      </div>
+      </section>
 
-      {/* Service 1: Image Left, Text Right */}
-      <div className="py-24 border-b border-slate-100 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center gap-16">
+      {/* Grid Section */}
+      <section className="py-20 bg-slate-900/50">
+        <div className="max-w-7xl mx-auto px-4">
           <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={slideRight}
-            className="md:w-1/2"
+            initial="hidden" 
+            whileInView="visible" 
+            viewport={{ once: true }} 
+            variants={staggerContainer} 
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
           >
-            <img 
-              src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1000" 
-              alt="Team analyzing CRM data" 
-              className="rounded-2xl shadow-2xl"
-            />
-          </motion.div>
-          
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={slideLeft}
-            className="md:w-1/2"
-          >
-            <span className="text-blue-600 font-bold tracking-wider uppercase text-sm mb-2 block">Core Offering</span>
-            <h2 className="text-4xl font-extrabold text-slate-900 mb-6">CRM Implementation & Strategy</h2>
-            <p className="text-lg text-slate-600 mb-8 leading-relaxed">
-              A CRM is only as good as the process it supports. We build custom Dynamics 365 Sales environments tailored entirely to how your specific sales team operates.
-            </p>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3 text-slate-700">
-                <CheckCircle2 className="h-6 w-6 text-blue-600 shrink-0" />
-                <span><strong>Custom Lead Pipelines:</strong> Automated routing for inbound leads.</span>
-              </li>
-              <li className="flex items-start gap-3 text-slate-700">
-                <CheckCircle2 className="h-6 w-6 text-blue-600 shrink-0" />
-                <span><strong>Sales Funnel Analytics:</strong> Real-time dashboards tracking deal stages.</span>
-              </li>
-            </ul>
+            {services.map((service, index) => (
+              <motion.div 
+                key={index} 
+                variants={fadeUp} 
+                className="p-8 rounded-3xl bg-slate-800/50 border border-slate-700 hover:border-blue-500 transition-all group"
+              >
+                <div className="mb-6 text-blue-500 group-hover:scale-110 transition-transform duration-300">
+                  {service.icon}
+                </div>
+                <h3 className="text-2xl font-bold mb-4">{service.title}</h3>
+                <p className="text-slate-400 leading-relaxed mb-6">{service.desc}</p>
+                <button className="flex items-center gap-2 text-blue-400 font-bold hover:text-blue-300">
+                  Learn More <ArrowRight className="h-4 w-4" />
+                </button>
+              </motion.div>
+            ))}
           </motion.div>
         </div>
-      </div>
+      </section>
 
-      {/* Service 2: Text Left, Image Right */}
-      <div className="py-24 bg-slate-50 border-b border-slate-100 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col-reverse md:flex-row items-center gap-16">
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={slideRight}
-            className="md:w-1/2"
-          >
-            <span className="text-blue-600 font-bold tracking-wider uppercase text-sm mb-2 block">Data Security</span>
-            <h2 className="text-4xl font-extrabold text-slate-900 mb-6">ERP Migration & Upgrades</h2>
-            <p className="text-lg text-slate-600 mb-8 leading-relaxed">
-              Moving legacy financial and operations data is high-risk. We use proprietary staging environments to migrate your data to the cloud with zero downtime.
-            </p>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3 text-slate-700">
-                <CheckCircle2 className="h-6 w-6 text-blue-600 shrink-0" />
-                <span><strong>Zero-Data-Loss Guarantee:</strong> Strict validation protocols.</span>
-              </li>
-              <li className="flex items-start gap-3 text-slate-700">
-                <CheckCircle2 className="h-6 w-6 text-blue-600 shrink-0" />
-                <span><strong>Legacy System Sunsetting:</strong> Safe extraction from SAP or Oracle.</span>
-              </li>
-            </ul>
-          </motion.div>
-          
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={slideLeft}
-            className="md:w-1/2"
-          >
-            <img 
-              src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1000" 
-              alt="Digital dashboard charts" 
-              className="rounded-2xl shadow-2xl"
-            />
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Call to Action Footer */}
-      <motion.div 
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-50px" }}
-        variants={fadeUp}
-        className="bg-blue-600 text-white py-20 text-center"
-      >
-        <div className="max-w-3xl mx-auto px-4">
-          <h2 className="text-4xl font-bold mb-8">Ready to upgrade your infrastructure?</h2>
-          <Link href="/#contact" className="inline-block bg-white text-blue-600 font-bold px-10 py-4 rounded-full hover:bg-slate-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-            Schedule a Free Architecture Review
-          </Link>
-        </div>
-      </motion.div>
-
+      <footer className="py-12 border-t border-slate-800 text-center text-slate-500">
+        <p>© 2026 Satyam Panndey Dynamics. All rights reserved.</p>
+      </footer>
     </div>
   );
 }
