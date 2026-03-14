@@ -23,10 +23,24 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 items-center">
           
-          <Link href="/" className="flex items-center gap-2 cursor-pointer">
-            <Database className="h-8 w-8 text-blue-600" />
-            <span className="font-extrabold text-xl tracking-tight text-slate-900">DynamicsPro</span>
-          </Link>
+          {/* Logo & MS Partner Badge */}
+          <div className="flex items-center gap-6">
+            <Link href="/" className="text-2xl font-black text-white tracking-tighter hover:opacity-90 transition-opacity">
+              DynamicsPro<span className="text-blue-500">.</span>
+            </Link>
+            <a 
+              href="https://partner.microsoft.com" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="hidden sm:block border-l border-slate-700 pl-6 hover:opacity-80 transition-opacity"
+            >
+              <img 
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/512px-Microsoft_logo.svg.png" 
+                alt="Microsoft Partner" 
+                className="w-[100px] object-contain grayscale hover:grayscale-0 transition-all duration-300" 
+              />
+            </a>
+          </div>
 
           <div className="hidden md:flex space-x-8 items-center font-semibold text-slate-600">
             <Link href="/services" className="hover:text-blue-600 transition-colors">Services</Link>
